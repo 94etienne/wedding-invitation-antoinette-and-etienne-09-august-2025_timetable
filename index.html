@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wedding Day Timeline - Antoinette & Etienne</title>
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background-color: #fefefe;
+      color: #222;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .timeline-container {
+      max-width: 1200px;
+      margin: 20px auto;
+      background: white;
+      box-shadow: 0 0 20px rgba(0,0,0,0.15);
+      position: relative;
+      overflow: hidden;
+      border-radius: 10px;
+    }
+
+    .timeline-container::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: linear-gradient(90deg, #f3e7e9 0%, #e3eeff 50%, #f3e7e9 100%);
+      z-index: 1;
+    }
+
+    .timeline-container::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40px;
+      background: linear-gradient(90deg, #f3e7e9 0%, #e3eeff 50%, #f3e7e9 100%);
+      z-index: 1;
+    }
+
+    .header {
+      text-align: center;
+      padding: 50px 30px 30px;
+      background: white;
+      position: relative;
+      z-index: 2;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      color: #333;
+      margin: 0 0 10px;
+      font-family: 'Georgia', serif;
+    }
+
+    .header h1::before, .header h1::after {
+      content: "❦";
+      color: #d4af37;
+      margin: 0 15px;
+      font-size: 24px;
+    }
+
+    .couple-names {
+      font-size: 24px;
+      color: #d4af37;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    .wedding-date {
+      background-color: #f9f2e7;
+      padding: 15px 25px;
+      border-radius: 8px;
+      display: inline-block;
+      margin: 20px auto;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      font-size: 20px;
+      color: #5a4a3a;
+      border: 1px solid #e8d9c5;
+    }
+
+    .wedding-date::before, .wedding-date::after {
+      content: "✧";
+      color: #d4af37;
+      margin: 0 15px;
+    }
+
+    .timeline-content {
+      padding: 20px 30px 50px;
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    .column {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .timeline-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 30px;
+      padding: 20px;
+      background: #fafafa;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border-left: 4px solid #d4af37;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .timeline-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+
+    .time-badge {
+      background: linear-gradient(135deg, #d4af37 0%, #f9f295 100%);
+      color: #333;
+      padding: 12px 18px;
+      border-radius: 25px;
+      font-weight: bold;
+      font-size: 16px;
+      min-width: 100px;
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(212, 175, 55, 0.3);
+      margin-right: 25px;
+      flex-shrink: 0;
+    }
+
+    .event-details {
+      flex: 1;
+    }
+
+    .event-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .event-location {
+      color: #666;
+      font-style: italic;
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .event-description {
+      color: #555;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .special-event .time-badge {
+      background: linear-gradient(135deg, #e74c3c 0%, #ff6b9d 100%);
+      color: white;
+    }
+
+    .special-event {
+      border-left-color: #e74c3c;
+      background: linear-gradient(135deg, #fff5f5 0%, #fef7f7 100%);
+    }
+
+    .rings-container {
+      text-align: center;
+      margin: 20px auto;
+      height: 60px;
+    }
+
+    .rings-3d {
+      position: relative;
+      width: 120px;
+      height: 60px;
+      margin: 0 auto;
+      transform-style: preserve-3d;
+      animation: rotate 10s infinite linear;
+    }
+
+    .ring {
+      position: absolute;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 6px solid #c0c0c0;
+      box-shadow: 
+        0 0 8px rgba(192, 192, 192, 0.8),
+        inset 0 0 8px rgba(192, 192, 192, 0.8),
+        0 0 15px rgba(255, 255, 255, 0.5) inset;
+      background: linear-gradient(135deg, #e6e6e6 0%, #c0c0c0 50%, #e6e6e6 100%);
+    }
+
+    .ring-1 {
+      transform: rotateY(30deg) translateZ(0);
+      left: 20px;
+    }
+
+    .ring-2 {
+      transform: rotateY(-30deg) translateZ(0);
+      left: 60px;
+    }
+
+    @keyframes rotate {
+      0% { transform: rotateY(0deg); }
+      100% { transform: rotateY(360deg); }
+    }
+
+    .footer-note {
+      text-align: center;
+      padding: 20px;
+      background: #f8f9fa;
+      margin: 30px 0 0;
+      border-radius: 8px;
+      color: #666;
+      font-style: italic;
+      grid-column: 1 / -1;
+    }
+
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .contact-item {
+      background: white;
+      padding: 12px 20px;
+      border-radius: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      font-weight: bold;
+      color: #333;
+    }
+
+    @media (max-width: 1024px) {
+      .timeline-content {
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+      
+      .timeline-container {
+        max-width: 800px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .timeline-item {
+        flex-direction: column;
+        text-align: center;
+      }
+
+      .time-badge {
+        margin-right: 0;
+        margin-bottom: 15px;
+        align-self: center;
+      }
+
+      .header h1 {
+        font-size: 28px;
+      }
+
+      .couple-names {
+        font-size: 20px;
+      }
+
+      .contact-info {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+
+    .export-btn {
+      display: block;
+      margin: 30px auto;
+      padding: 12px 25px;
+      background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+      color: white;
+      border: none;
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    }
+
+    .export-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(76, 175, 80, 0.4);
+    }
+
+    /* Corner decorations */
+    .timeline-container::before {
+      border: 2px solid transparent;
+      background: linear-gradient(white, white) padding-box,
+                  repeating-linear-gradient(45deg, #d4af37 0, #d4af37 5px, #f9f295 5px, #f9f295 10px) border-box;
+    }
+  </style>
+</head>
+<body>
+
+<div class="timeline-container">
+  <div class="header">
+    <h1>Wedding Day Timeline</h1>
+    
+    <div class="rings-container">
+      <div class="rings-3d">
+        <div class="ring ring-1"></div>
+        <div class="ring ring-2"></div>
+      </div>
+    </div>
+
+    <div class="couple-names">Antoinette & Etienne</div>
+    <div class="wedding-date">August 09, 2025</div>
+  </div>
+
+  <div class="timeline-content">
+    <div class="column">
+      <div class="timeline-item">
+        <div class="time-badge">8:30 AM</div>
+        <div class="event-details">
+          <div class="event-title">Opening Ceremony</div>
+          <div class="event-location">📍 Procure (Centre St Jean Baptiste)</div>
+          <div class="event-description">Welcome and preparation for the day's festivities</div>
+        </div>
+      </div>
+
+      <div class="timeline-item special-event">
+        <div class="time-badge">9:00 AM</div>
+        <div class="event-details">
+          <div class="event-title">Introduction & Dowry Giving</div>
+          <div class="event-location">📍 Procure (Centre St Jean Baptiste)</div>
+          <div class="event-description">Traditional ceremony where families are formally introduced and dowry is presented</div>
+        </div>
+      </div>
+
+      <div class="timeline-item special-event">
+        <div class="time-badge">2:00 PM</div>
+        <div class="event-details">
+          <div class="event-title">Religious Wedding Ceremony</div>
+          <div class="event-location">⛪ ADEPR TABA Church</div>
+          <div class="event-description">Sacred union blessed before God and witnessed by family and friends</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="column">
+      <div class="timeline-item">
+        <div class="time-badge">3:00 PM</div>
+        <div class="event-details">
+          <div class="event-title">Wedding Photoshoot</div>
+          <div class="event-location">📸 Museum Huye</div>
+          <div class="event-description">Professional photography session to capture precious memories</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="time-badge">4:00 PM</div>
+        <div class="event-details">
+          <div class="event-title">Wedding Reception</div>
+          <div class="event-location">🎉 Procure (Centre St Jean Baptiste)</div>
+          <div class="event-description">Celebration with dinner, music, dancing and joy with all guests</div>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="time-badge">5:30 PM</div>
+        <div class="event-details">
+          <div class="event-title">Closing Ceremony</div>
+          <div class="event-location">📍 Procure (Centre St Jean Baptiste)</div>
+          <div class="event-description">Final blessings and farewell to conclude this beautiful day</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-note">
+      <p><strong>Your presence will make our special day even more meaningful!</strong></p>
+      
+      <div class="contact-info">
+        <div class="contact-item">
+          📞 +250-786-011-536 (KAYIRANGA)
+        </div>
+        <div class="contact-item">
+          📞 +250 780 707 798 (Claude)
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button class="export-btn" id="exportBtn">📱 Export as PNG</button>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const rings3d = document.querySelector('.rings-3d');
+    const exportBtn = document.getElementById('exportBtn');
+    const timelineContainer = document.querySelector('.timeline-container');
+
+    // Pause animation on hover
+    rings3d.addEventListener('mouseenter', function() {
+      this.style.animationPlayState = 'paused';
+    });
+    
+    rings3d.addEventListener('mouseleave', function() {
+      this.style.animationPlayState = 'running';
+    });
+
+    // Enhanced Export as PNG functionality
+    exportBtn.addEventListener('click', async function() {
+      const originalText = exportBtn.textContent;
+      exportBtn.textContent = '⏳ Generating...';
+      exportBtn.disabled = true;
+      
+      try {
+        // Temporarily pause the animation for the screenshot
+        rings3d.style.animationPlayState = 'paused';
+
+        // Create canvas with higher quality
+        const canvas = await html2canvas(timelineContainer, {
+          scale: 2,
+          logging: false,
+          useCORS: true,
+          allowTaint: true,
+          backgroundColor: '#fefefe',
+          width: timelineContainer.offsetWidth,
+          height: timelineContainer.offsetHeight
+        });
+
+        // Create download link
+        const link = document.createElement('a');
+        link.download = 'wedding-day-timeline.png';
+        link.href = canvas.toDataURL('image/png');
+        
+        // Trigger download
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+      } catch (error) {
+        console.error('Error generating PNG:', error);
+        alert('Error generating image. Please try again.');
+      } finally {
+        // Restore original state
+        exportBtn.textContent = originalText;
+        exportBtn.disabled = false;
+        rings3d.style.animationPlayState = 'running';
+      }
+    });
+
+    // Add smooth scroll animation for timeline items
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.timeline-item').forEach((item, index) => {
+      item.style.opacity = '0';
+      item.style.transform = 'translateY(30px)';
+      item.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+      observer.observe(item);
+    });
+  });
+</script>
+
+</body>
+</html>
